@@ -12,14 +12,14 @@ const PORT = process.env.PORT || 8001;
 // Connect to MongoDB
 connectDB();
 
-// Middleware setup
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // API routes
 app.use("/api", authRoutes);
 
-// Start the server
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

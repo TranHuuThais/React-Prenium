@@ -1,27 +1,29 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
+import "./fromLogin.css";
+
 import FormLogin from "./components/FormLogin";
-import { FaUserCircle } from "react-icons/fa";
-import Images from "../public/images";
+import Header from "./components/inc/header";
+import Dashboard from "./components/admin/dashboard";
+import CreateUser from "./components/admin/user/createUser";
 
 function App() {
   return (
-    <div className="App">
-      <header className="Sider-bar">
-        <div className="App-logo">
-          <div className="Content">
-            <img
-              src="./public/images/premium-logo-black@3x.png"
-              alt="logo Prenium"
-            />
-          </div>
+    <Router>
+      <div className="App">
+        <header className="Header">
+          <Header />
+        </header>
 
-          <div className="Icons">
-            <i className="fas fa-globe text-2xl"></i>
-            <FaUserCircle style={{ color: "gold" }} />
-          </div>
-        </div>
-      </header>
-      <div className="FormLogin">
-        <FormLogin />
-      </div
+        <Routes>
+          <Route path="/" element={<FormLogin />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/createUser" element={<CreateUser />} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
+
+export default App;
