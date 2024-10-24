@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const FormLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -17,7 +18,9 @@ const FormLogin = () => {
 
       const data = await response.json();
       if (response.ok) {
+        
         console.log(data.message);
+        login({ email, userId: data.userId });
         navigate("/dashboard");
       } else {
         console.error(data.message);

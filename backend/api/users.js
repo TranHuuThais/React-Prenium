@@ -14,13 +14,23 @@ router.post("/register", async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ email, password: hashedPassword, civilite, nom, prenom, maison, groupeDroits });
+    
+    // Create a new user
+    const newUser = new User({ 
+      email, 
+      password: hashedPassword, 
+      civilite, 
+      nom, 
+      prenom, 
+      maison, 
+      groupeDroits 
+    });
 
     await newUser.save();
     res.status(201).json({ message: "Người dùng đã được đăng ký thành công!" });
   } catch (error) {
-    console.error("Lỗi đăng ký:", error);
-    res.status(500).json({ message: "Lỗi máy chủ nội bộ." });
+    console.error("Lỗi đăng ký:", error.message); 
+    res.status(500).json({ message: "Lỗi máy chủ nội bộ.", error: error.message });
   }
 });
 
