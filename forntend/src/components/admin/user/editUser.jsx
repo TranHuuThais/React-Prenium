@@ -27,7 +27,10 @@ export default function EditUser() {
         setUserInput(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setErrorMessage("Error fetching user data.");
+        setErrorMessage(
+          "Error fetching user data: " +
+            (error.response?.data?.message || "Please try again.")
+        );
       }
     };
 

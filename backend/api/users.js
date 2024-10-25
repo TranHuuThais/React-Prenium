@@ -74,9 +74,26 @@ router.delete("/users/:id", async (req, res) => {
     res.status(500).json({ message: "Lỗi máy chủ nội bộ." });
   }
 });
+// Retrieve user by ID
+router.get("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "Người dùng không tồn tại." });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error("Lỗi khi tìm người dùng:", error);
+    res.status(500).json({ message: "Lỗi máy chủ nội bộ." });
+  }
+});
+
 // Edit user by ID
 router.put("/users/:id", async (req, res) => {
   const { id } = req.params;
+  // console.log("Đang cố gắng cập nhật người dùng với ID:", id);
+
   const { email, password, civilite, nom, prenom, maison, groupeDroits } =
     req.body;
 
@@ -86,6 +103,7 @@ router.put("/users/:id", async (req, res) => {
       return res.status(404).json({ message: "Người dùng không tồn tại." });
     }
 
+    // Update user fields only if provided
     user.email = email || user.email;
     user.civilite = civilite || user.civilite;
     user.nom = nom || user.nom;
@@ -93,6 +111,7 @@ router.put("/users/:id", async (req, res) => {
     user.maison = maison || user.maison;
     user.groupeDroits = groupeDroits || user.groupeDroits;
 
+    // Hash password only if a new password is provided
     if (password) {
       user.password = await bcrypt.hash(password, 10);
     }
@@ -117,7 +136,7 @@ router.get("/users", async (req, res) => {
   }
 });
 
-router.get("/users/searchUser", async (req, res) => {
+router.post("/users/searchUser", async (req, res) => {
   const { nom } = req.query;
 
   try {

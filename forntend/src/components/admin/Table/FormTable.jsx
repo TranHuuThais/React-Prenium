@@ -65,18 +65,19 @@ export default function FormTable() {
               <td className="border px-4 py-2">{user.maison}</td>
               <td className="border px-4 py-2">{user.groupeDroits}</td>
               <td className="border px-4 py-2">{user.derniereConnexion}</td>
-              <td className="border px-4 py-2">
-                <button
-                  onClick={() => handleDelete(user._id)}
-                  className="bg-red-500 text-white px-2 py-1 rounded"
-                >
-                  effacer
-                </button>
+              <td className="border px-2 py-2">
                 <button
                   onClick={() => openEditUserModal(user._id)}
-                  className="bg-blue-500 text-white px-2 py-1 rounded ml-2"
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
                 >
                   réparer
+                </button>
+
+                <button
+                  onClick={() => handleDelete(user._id)}
+                  className="bg-red-500 text-white px-2 py-1 rounded ml-4"
+                >
+                  effacer
                 </button>
               </td>
             </tr>
