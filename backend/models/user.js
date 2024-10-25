@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
   prenom: String,
   maison: String,
   groupeDroits: String,
-  derniereConnexion: Date,
-});
+  derniereConnexion: { type: Date, default: Date.now },});
 
 module.exports = mongoose.model("User", userSchema);

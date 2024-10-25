@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import EditUser from "../user/editUser";
 
 export default function FormTable() {
   const [users, setUsers] = useState([]);
+  const [editingUserId, setEditingUserId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -17,6 +21,25 @@ export default function FormTable() {
     fetchUsers();
   }, []);
 
+  const handleDelete = async (userId) => {
+    console.log("Deleting user with ID:", userId);
+    try {
+      const response = await axios.delete(
+        `http://localhost:8001/api/users/${userId}`
+      );
+      if (response.status === 200) {
+        setUsers(users.filter((user) => user._id !== userId));
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Error deleting user.");
+    }
+  };
+
+  const openEditUserModal = (userId) => {
+    navigate(`/editUser/${userId}`);
+  };
+
   return (
     <div className="form-table-container mt-4">
       <table className="w-full text-left border-collapse">
@@ -29,21 +52,32 @@ export default function FormTable() {
             <th className="border px-4 py-2">Maison</th>
             <th className="border px-4 py-2">Groupe de droits</th>
             <th className="border px-4 py-2">Dernière connexion</th>
+            <th className="border px-4 py-2">actes</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => (
-            <tr key={index} className="hover:bg-gray-100">
+          {users.map((user) => (
+            <tr key={user._id} className="hover:bg-gray-100">
               <td className="border px-4 py-2">{user.civilite}</td>
               <td className="border px-4 py-2">{user.nom}</td>
               <td className="border px-4 py-2">{user.prenom}</td>
               <td className="border px-4 py-2">{user.email}</td>
               <td className="border px-4 py-2">{user.maison}</td>
               <td className="border px-4 py-2">{user.groupeDroits}</td>
+              <td className="border px-4 py-2">{user.derniereConnexion}</td>
               <td className="border px-4 py-2">
-                {user.derniereConnexion
-                  ? user.derniereConnexion.toLocaleString()
-                  : "N/A"}
+                <button
+                  onClick={() => handleDelete(user._id)}
+                  className="bg-red-500 text-white px-2 py-1 rounded"
+                >
+                  effacer
+                </button>
+                <button
+                  onClick={() => openEditUserModal(user._id)}
+                  className="bg-blue-500 text-white px-2 py-1 rounded ml-2"
+                >
+                  réparer
+                </button>
               </td>
             </tr>
           ))}

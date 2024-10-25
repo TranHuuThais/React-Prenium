@@ -1,23 +1,28 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
 
   const handleLogout = () => {
-    console.log("Logout clicked");
+    logout();
     navigate("/");
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Search for:", searchQuery);
+    if (searchQuery) {
+      navigate(`/searchUser?nom=${encodeURIComponent(searchQuery)}`); 
+    }
   };
 
   return (
@@ -26,15 +31,21 @@ const Header = () => {
         <img src="/images/premium-logo-black@3x.png" alt="Premium Logo" />
       </div>
 
-      <form className="search-bar" onSubmit={handleSearch}>
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-      </form>
+      {user && (
+        <form className="search-bar" onSubmit={handleSearch}>
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <button type="submit" className="search_button">
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+          <Link to="/searchUser" className="search-icon-link"></Link>
+        </form>
+      )}
 
       <div className="icon-container">
         <div className="Icon-france">

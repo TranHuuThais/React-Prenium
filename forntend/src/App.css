@@ -196,7 +196,18 @@
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s;
 }
-
+button.cancel-button {
+  width: 35%;
+  margin-left: 32%;
+}
+.search_button {
+  margin-top: 0%;
+  margin-left: -2%;
+  border: 1px;
+  border-radius: 25px;
+  width: 4%;
+  padding: 11px;
+}
 .icon-button:hover {
   background-color: #b99b20;
   transform: translateY(-2px);
