@@ -55,7 +55,6 @@ export default function CreateUser() {
       alert("An error occurred while creating the user.");
     }
 
-    // Reset input fields
     setUserInput({
       email: "",
       password: "",

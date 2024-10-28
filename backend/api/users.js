@@ -103,7 +103,6 @@ router.put("/users/:id", async (req, res) => {
       return res.status(404).json({ message: "Người dùng không tồn tại." });
     }
 
-    // Update user fields only if provided
     user.email = email || user.email;
     user.civilite = civilite || user.civilite;
     user.nom = nom || user.nom;
@@ -111,7 +110,6 @@ router.put("/users/:id", async (req, res) => {
     user.maison = maison || user.maison;
     user.groupeDroits = groupeDroits || user.groupeDroits;
 
-    // Hash password only if a new password is provided
     if (password) {
       user.password = await bcrypt.hash(password, 10);
     }
