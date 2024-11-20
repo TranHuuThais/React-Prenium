@@ -17,12 +17,13 @@ export default function EditUser() {
   });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8001/api/users/${userId}`
+          `${apiUrl}users/${userId}`
         );
         setUserInput(response.data);
       } catch (error) {

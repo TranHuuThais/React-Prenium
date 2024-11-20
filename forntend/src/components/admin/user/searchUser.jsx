@@ -9,6 +9,7 @@ const SearchUser = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -22,7 +23,7 @@ const SearchUser = () => {
   const handleSearch = async (query) => {
     try {
       const response = await axios.post(
-        `http://localhost:8001/api/users/searchUser?nom=${query}`
+        `${apiUrl}users/searchUser?nom=${query}`
       );
       setUsers(response.data);
     } catch (error) {

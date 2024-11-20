@@ -14,6 +14,7 @@ export default function CreateUser() {
   });
 
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +33,7 @@ export default function CreateUser() {
     }
 
     try {
-      const response = await fetch("http://localhost:8001/api/register", {
+      const response = await fetch(`${apiUrl}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

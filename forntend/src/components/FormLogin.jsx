@@ -7,10 +7,12 @@ const FormLogin = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8001/api/login", {
+      const response = await fetch(`${apiUrl}login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -18,7 +20,6 @@ const FormLogin = () => {
 
       const data = await response.json();
       if (response.ok) {
-        
         console.log(data.message);
         login({ email, userId: data.userId });
         navigate("/dashboard");
