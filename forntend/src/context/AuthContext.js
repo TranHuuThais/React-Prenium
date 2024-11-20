@@ -5,7 +5,15 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
+    if (storedUser) {
+      try {
+        return JSON.parse(storedUser); // Try parsing stored data
+      } catch (e) {
+        console.error("Error parsing user data from localStorage:", e);
+        return null; // Return null if parsing fails
+      }
+    }
+    return null; // Return null if no user data is found
   });
 
   const login = (userData) => {
